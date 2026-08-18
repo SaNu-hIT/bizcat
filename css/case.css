@@ -1,0 +1,142 @@
+/* ============================================================
+   BIZCAT — case story page
+   One transformation told in four parts. Reuses the main
+   design system; this file only adds story-page structure.
+   ============================================================ */
+
+.case-story[hidden] { display: none; }
+
+/* Part accent moods (data-chapter mirrors the active part) */
+.case-page[data-chapter="2"] { --accent: var(--blue); }
+.case-page[data-chapter="3"] { --accent: var(--blue); }
+.case-page[data-chapter="4"] { --accent: #b0722e; }
+
+/* Scroll runway per part */
+.cs-hero { height: 200vh; }
+.cs-were { height: 280vh; }
+.cs-saw  { height: 280vh; }
+.cs-made { height: 320vh; }
+.cs-now  { height: 300vh; }
+
+.cs-were .display, .cs-saw .display, .cs-now .display {
+  font-size: clamp(1.9rem, 5.2vw, 5rem);
+}
+
+/* ---------- hero facts ---------- */
+
+.cs-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 1.1vw, 0.72rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ---------- part 03 — the work ---------- */
+
+.cs-work {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+.cs-work-media {
+  position: relative;
+  height: min(64vh, 40rem);
+  border: 1px solid var(--line);
+  background: var(--coal);
+  overflow: hidden;
+}
+.cs-work-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 8rem rgba(8, 8, 12, 0.55);
+  pointer-events: none;
+}
+.cs-work-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: saturate(0.92) contrast(1.02);
+}
+.cs-work-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.cs-disciplines {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+
+/* ---------- part 04 — light floods in ---------- */
+
+.cs-now .pin { color: #1b160f; }
+.cs-now .pin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(175deg, #efe7d7 0%, #e6dcc8 55%, #dccfb4 100%);
+  opacity: var(--veil, 0);
+  z-index: -1;
+}
+.cs-now .meta { color: #5f5340; }
+.cs-now .display .em { color: #7c4e1d; }
+.cs-now .serif-note { color: #4a3f2e; }
+.cs-now .serif-note em { color: #7c4e1d; }
+
+.cs-quote {
+  max-width: 46ch;
+  border-left: 2px solid #7c4e1d;
+  padding-left: clamp(1rem, 2.5vw, 2rem);
+}
+.cs-quote p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.4vw, 1.9rem);
+  line-height: 1.5;
+  color: #2a2115;
+}
+.cs-quote figcaption { margin-top: 1rem; color: #5f5340; }
+
+/* rail activation moves focus to the part programmatically */
+.chapter[tabindex="-1"]:focus { outline: none; }
+
+/* ---------- next story ---------- */
+
+.cs-next {
+  background: linear-gradient(rgba(5, 5, 8, 0) 0%, rgba(5, 5, 8, 0.9) 22%, #050508 100%);
+}
+.cs-next-link {
+  text-decoration: none;
+  color: var(--cream);
+  align-self: flex-start;
+}
+.cs-next-link .display { transition: color 0.35s; }
+.cs-next-link:hover .display .ln:not(.em) { color: var(--accent); }
+
+/* ---------- reduced motion ---------- */
+
+body.rm .cs-now .pin { --veil: 1; }
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 820px) {
+  .cs-hero { height: 180vh; }
+  .cs-were { height: 240vh; }
+  .cs-saw  { height: 240vh; }
+  .cs-made { height: 280vh; }
+  .cs-now  { height: 260vh; }
+
+  .cs-work { grid-template-columns: 1fr; gap: 1.2rem; }
+  .cs-work-media { height: 40svh; }
+  .cs-work-info { gap: 1rem; }
+}

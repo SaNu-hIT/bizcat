@@ -664,6 +664,20 @@ main { position: relative; z-index: 10; }
 }
 .proj-body .quote { font-style: italic; color: var(--cream); }
 
+.proj-cta { margin-top: 0.2rem; }
+.story-link {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.25rem;
+  transition: color 0.3s, border-color 0.3s;
+}
+.story-link:hover { color: var(--cream); border-color: var(--cream); }
+
 .proof-counter {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -952,7 +966,15 @@ body.rm .proof-counter, body.rm .engine-track { display: none; }
     mix-blend-mode: normal;
   }
   .rail ol { flex-direction: row; justify-content: space-between; gap: 0.2rem; }
-  .rail .rail-t { display: none; }
+  /* visually hidden, not display:none — keeps the links' accessible names */
+  .rail .rail-t {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   .rail a { padding: 0.35rem 0.4rem; }
   .rail a.active::before { display: none; }
   .rail a.active { color: var(--accent); opacity: 1; }

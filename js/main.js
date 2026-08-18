@@ -53,6 +53,12 @@ const missingPin = document.querySelector('.ch-missing .pin');
 const engineSection = document.getElementById('ch04');
 const proofSection = document.getElementById('ch05');
 
+// story links inside off-stage projects must stay out of the Tab order,
+// but the projects themselves stay in the accessibility tree so screen
+// readers can still browse the whole archive
+const projLinks = projects.map((p) => p.querySelector('.story-link'));
+if (!reducedMotion) projLinks.forEach((l) => { if (l) l.tabIndex = -1; });
+
 /* Local progress through a section (0 at pin start, 1 at pin end). */
 function sectionProgress(section) {
   const rect = section.getBoundingClientRect();
@@ -80,11 +86,15 @@ function styleBeat(el, e, local) {
   el.style.pointerEvents = e > 0.5 ? 'auto' : 'none';
 }
 
-function styleProject(el, e, local) {
+function styleProject(el, e, local, link) {
   el.style.opacity = e.toFixed(3);
   const drift = (0.5 - local) * 14; // diagonal travel: right/down -> left/up
   el.style.transform = `translate(${(drift * (1 - e * 0.4)).toFixed(2)}vw, ${(drift * 0.32).toFixed(2)}vh)`;
   el.style.pointerEvents = e > 0.5 ? 'auto' : 'none';
+  if (link) {
+    const t = e > 0.5 ? 0 : -1;
+    if (link.tabIndex !== t) link.tabIndex = t;
+  }
 }
 
 /* ---------- WebGL world (graceful fallback) ---------- */
@@ -127,7 +137,12 @@ function update() {
     currentChapter = ch;
     document.body.dataset.chapter = String(ch);
     navChapter.textContent = `0${ch} / 07`;
-    railLinks.forEach((a) => a.classList.toggle('active', parseInt(a.dataset.rail, 10) === ch));
+    railLinks.forEach((a) => {
+      const on = parseInt(a.dataset.rail, 10) === ch;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
   }
   navBar.style.transform = `scaleX(${globalP.toFixed(4)})`;
 
@@ -161,7 +176,7 @@ function update() {
     let visible = 0, best = -1;
     projects.forEach((el, i) => {
       const { e, local } = beatPresence(seqP, i, projects.length, true);
-      styleProject(el, e, local);
+      styleProject(el, e, local, projLinks[i]);
       if (e > best) { best = e; visible = i; }
     });
     const label = String(visible + 1).padStart(2, '0');
