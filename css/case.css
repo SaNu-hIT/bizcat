@@ -11,12 +11,13 @@
 .case-page[data-chapter="3"] { --accent: var(--blue); }
 .case-page[data-chapter="4"] { --accent: #b0722e; }
 
-/* Scroll runway per part */
-.cs-hero { height: 200vh; }
-.cs-were { height: 280vh; }
-.cs-saw  { height: 280vh; }
-.cs-made { height: 320vh; }
-.cs-now  { height: 300vh; }
+/* Scroll runway per part. svh fallback keeps this stable while a
+   mobile browser's chrome hides/shows mid-scroll — see main.css. */
+.cs-hero { height: 200vh; height: 200svh; }
+.cs-were { height: 280vh; height: 280svh; }
+.cs-saw  { height: 280vh; height: 280svh; }
+.cs-made { height: 320vh; height: 320svh; }
+.cs-now  { height: 300vh; height: 300svh; }
 
 .cs-were .display, .cs-saw .display, .cs-now .display {
   font-size: clamp(1.9rem, 5.2vw, 5rem);
@@ -130,11 +131,11 @@ body.rm .cs-now .pin { --veil: 1; }
 /* ---------- mobile ---------- */
 
 @media (max-width: 820px) {
-  .cs-hero { height: 180vh; }
-  .cs-were { height: 240vh; }
-  .cs-saw  { height: 240vh; }
-  .cs-made { height: 280vh; }
-  .cs-now  { height: 260vh; }
+  .cs-hero { height: 180vh; height: 180svh; }
+  .cs-were { height: 240vh; height: 240svh; }
+  .cs-saw  { height: 240vh; height: 240svh; }
+  .cs-made { height: 280vh; height: 280svh; }
+  .cs-now  { height: 260vh; height: 260svh; }
 
   .cs-work { grid-template-columns: 1fr; gap: 1.2rem; }
   .cs-work-media { height: 40svh; }

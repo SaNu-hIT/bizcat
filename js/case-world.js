@@ -270,7 +270,13 @@ export function initCaseWorld({ canvas, isMobile, reducedMotion }) {
   }
 
   let raf = 0;
-  function loop() { frame(); raf = requestAnimationFrame(loop); }
+  function loop() {
+    // A thrown error inside frame() must not break the requestAnimationFrame
+    // chain — that would freeze the WebGL background permanently instead
+    // of just skipping one bad frame.
+    try { frame(); } catch (err) { console.error('case world frame() failed', err); }
+    raf = requestAnimationFrame(loop);
+  }
 
   if (reducedMotion) {
     frame();

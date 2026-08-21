@@ -361,7 +361,13 @@ export function initWorld({ canvas, isMobile, reducedMotion }) {
   }
 
   let raf = 0;
-  function loop() { frame(); raf = requestAnimationFrame(loop); }
+  function loop() {
+    // A thrown error inside frame() must not break the requestAnimationFrame
+    // chain — that would freeze the WebGL background permanently instead
+    // of just skipping one bad frame.
+    try { frame(); } catch (err) { console.error('world frame() failed', err); }
+    raf = requestAnimationFrame(loop);
+  }
 
   if (reducedMotion) {
     frame(); // single static frame; re-rendered on demand from update()

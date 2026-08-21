@@ -127,7 +127,13 @@ let ticking = false;
 function requestUpdate() {
   if (ticking) return;
   ticking = true;
-  requestAnimationFrame(() => { update(); ticking = false; });
+  requestAnimationFrame(() => {
+    // A thrown error here must never leave `ticking` stuck true — that
+    // would silently freeze every future scroll update (nav, reveals,
+    // camera) for the rest of the session while the page keeps scrolling.
+    try { update(); } catch (err) { console.error('update() failed', err); }
+    ticking = false;
+  });
 }
 window.addEventListener('scroll', requestUpdate, { passive: true });
 window.addEventListener('resize', requestUpdate);

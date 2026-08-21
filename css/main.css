@@ -368,14 +368,20 @@ main { position: relative; z-index: 10; }
 .frame-wide { max-width: 96rem; }
 .frame-center { align-items: center; text-align: center; }
 
-/* Section heights = scroll runway per chapter */
-.ch-question  { height: 240vh; }
-.ch-now       { height: 380vh; }
-.ch-missing   { height: 400vh; }
-.ch-diagnosis { height: 320vh; }
-.ch-engine    { height: 760vh; }
-.ch-proof     { height: 820vh; }
-.ch-result    { height: 300vh; }
+/* Section heights = scroll runway per chapter.
+   svh (small viewport height) after the vh fallback keeps this runway
+   — and therefore document.scrollHeight and every sectionProgress()
+   read in main.js — stable while a mobile browser's chrome hides or
+   shows mid-scroll. Plain vh recomputes on every chrome resize, which
+   yanks the scroll math under the user's thumb and reads as the page
+   randomly snagging or skipping. */
+.ch-question  { height: 240vh; height: 240svh; }
+.ch-now       { height: 380vh; height: 380svh; }
+.ch-missing   { height: 400vh; height: 400svh; }
+.ch-diagnosis { height: 320vh; height: 320svh; }
+.ch-engine    { height: 760vh; height: 760svh; }
+.ch-proof     { height: 820vh; height: 820svh; }
+.ch-result    { height: 300vh; height: 300svh; }
 
 /* ---------- Chapter 00 — Question ---------- */
 
@@ -994,13 +1000,13 @@ body.rm .proof-counter, body.rm .engine-track { display: none; }
 
   .frame { padding-inline: 1.25rem; gap: 1.3rem; }
 
-  .ch-question  { height: 200vh; }
-  .ch-now       { height: 330vh; }
-  .ch-missing   { height: 340vh; }
-  .ch-diagnosis { height: 280vh; }
-  .ch-engine    { height: 640vh; }
-  .ch-proof     { height: 760vh; }
-  .ch-result    { height: 260vh; }
+  .ch-question  { height: 200vh; height: 200svh; }
+  .ch-now       { height: 330vh; height: 330svh; }
+  .ch-missing   { height: 340vh; height: 340svh; }
+  .ch-diagnosis { height: 280vh; height: 280svh; }
+  .ch-engine    { height: 640vh; height: 640svh; }
+  .ch-proof     { height: 760vh; height: 760svh; }
+  .ch-result    { height: 260vh; height: 260svh; }
 
   .display { font-size: clamp(1.9rem, 9.6vw, 3.2rem); }
   .display-xl { font-size: clamp(2.1rem, 11vw, 3.6rem); }
