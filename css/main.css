@@ -128,6 +128,15 @@ body.no-webgl { background: radial-gradient(120% 90% at 50% 10%, #15151d 0%, #08
 }
 .display-xl { font-size: clamp(2.4rem, 8.6vw, 8.2rem); }
 .display-md { font-size: clamp(1.8rem, 5vw, 4.4rem); }
+
+/* Chapter 00's cover line is the only .display-xl on a width-capped
+   frame (max-width: 82rem) — at its full 8.6vw/8.2rem size the two
+   longer lines wrap, roughly doubling the block's height and pushing
+   the eyebrow line up underneath the fixed nav on common desktop
+   viewport heights. Cap it lower so all three lines stay single-line. */
+@media (min-width: 821px) {
+  .ch-question .display-xl { font-size: clamp(2.1rem, 5.6vw, 5.6rem); }
+}
 .display .ln { display: block; }
 .display .em {
   font-family: var(--font-serif);
