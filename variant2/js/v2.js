@@ -238,7 +238,13 @@ function tick(now) {
     if (ad > maxDelta) maxDelta = ad;
     P[i] += d * k;
   }
-  writeContinuous();
+  // A thrown error here must not skip the requestAnimationFrame(tick)
+  // call below — that would leave `running` stuck true forever (wake()
+  // refuses to restart a loop it thinks is still running), silently
+  // freezing every continuous effect (parallax, engine cube, gallery
+  // ken-burns, result veil) while the discrete update() loop above
+  // keeps ticking along fine. One bad frame should be skipped, not fatal.
+  try { writeContinuous(); } catch (err) { console.error('writeContinuous() failed', err); }
   if (maxDelta < 0.0004) {
     settled += dt;
     if (settled > 0.25) { running = false; return; }
@@ -360,7 +366,14 @@ let ticking = false;
 function requestUpdate() {
   if (ticking) return;
   ticking = true;
-  requestAnimationFrame(() => { update(); ticking = false; });
+  requestAnimationFrame(() => {
+    // A thrown error here must never leave `ticking` stuck true — that
+    // would silently freeze every future scroll update (nav, reveals,
+    // rail, fg stage) for the rest of the session while the page keeps
+    // scrolling normally underneath.
+    try { update(); } catch (err) { console.error('update() failed', err); }
+    ticking = false;
+  });
 }
 window.addEventListener('scroll', requestUpdate, { passive: true });
 window.addEventListener('resize', requestUpdate);

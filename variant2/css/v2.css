@@ -488,14 +488,18 @@ main { position: relative; z-index: 10; }
   font-size: clamp(1.7rem, 4.6vw, 4.3rem);
 }
 
-/* Section heights = scroll runway per scene */
-.sc-cover    { height: 220vh; }
-.sc-drift    { height: 320vh; }
-.sc-fracture { height: 300vh; }
-.sc-diagnosis{ height: 260vh; }
-.sc-engine   { height: 600vh; }
-.sc-gallery  { height: 980vh; }
-.sc-result   { height: 320vh; }
+/* Section heights = scroll runway per scene. svh fallback keeps this
+   stable while a mobile browser's chrome hides/shows mid-scroll —
+   plain vh recomputes on every chrome resize, which shifts
+   document.scrollHeight and every sectionProgress() read in v2.js
+   out from under the user's thumb (see variant 1's main.css). */
+.sc-cover    { height: 220vh; height: 220svh; }
+.sc-drift    { height: 320vh; height: 320svh; }
+.sc-fracture { height: 300vh; height: 300svh; }
+.sc-diagnosis{ height: 260vh; height: 260svh; }
+.sc-engine   { height: 600vh; height: 600svh; }
+.sc-gallery  { height: 980vh; height: 980svh; }
+.sc-result   { height: 320vh; height: 320svh; }
 
 .scene { overflow-x: clip; }
 
@@ -1269,13 +1273,13 @@ body.rm .sway { animation: none; }
 
   .frame { padding-inline: 1.25rem; gap: 1.3rem; }
 
-  .sc-cover    { height: 190vh; }
-  .sc-drift    { height: 270vh; }
-  .sc-fracture { height: 260vh; }
-  .sc-diagnosis{ height: 220vh; }
-  .sc-engine   { height: 510vh; }
-  .sc-gallery  { height: 830vh; }
-  .sc-result   { height: 270vh; }
+  .sc-cover    { height: 190vh; height: 190svh; }
+  .sc-drift    { height: 270vh; height: 270svh; }
+  .sc-fracture { height: 260vh; height: 260svh; }
+  .sc-diagnosis{ height: 220vh; height: 220svh; }
+  .sc-engine   { height: 510vh; height: 510svh; }
+  .sc-gallery  { height: 830vh; height: 830svh; }
+  .sc-result   { height: 270vh; height: 270svh; }
 
   .display { font-size: clamp(1.9rem, 9.6vw, 3.2rem); }
   .display-xl { font-size: clamp(2.1rem, 11vw, 3.6rem); }
