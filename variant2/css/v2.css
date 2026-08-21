@@ -537,6 +537,10 @@ main { position: relative; z-index: 10; }
   position: relative;
   z-index: 2;
   max-width: 50%;
+  /* clears the fixed nav's scrim on short/narrow viewports, where the
+     pin's vertical centering would otherwise start the meta line
+     underneath it */
+  padding-top: clamp(3.2rem, 9vh, 5.5rem);
 }
 /* collage leaves less room than v1's empty stage — tighter cover scale */
 .sc-cover .display-xl { font-size: clamp(1.9rem, 5.2vw, 5rem); }
