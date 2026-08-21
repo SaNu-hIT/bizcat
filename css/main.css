@@ -24,6 +24,7 @@
   --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
 
   --frame-pad: clamp(1.25rem, 5vw, 5rem);
+  --nav-h: clamp(3.6rem, 11vh, 4.75rem);
 }
 
 /* Chapter accent moods */
@@ -326,6 +327,7 @@ main { position: relative; z-index: 10; }
   overflow: hidden;
   display: flex;
   align-items: center;
+  padding-top: var(--nav-h);
 }
 .pin-natural {
   position: relative;
@@ -333,7 +335,7 @@ main { position: relative; z-index: 10; }
   min-height: 100vh;
   min-height: 100svh;
   overflow: visible;
-  padding: 16vh 0;
+  padding: max(16vh, calc(var(--nav-h) + 2rem)) 0 16vh;
 }
 
 .frame {
